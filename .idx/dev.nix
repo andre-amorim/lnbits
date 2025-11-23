@@ -2,12 +2,17 @@
 # see: https://developers.google.com/idx/guides/customize-idx-env
 { pkgs, ... }: {
   # Which nixpkgs channel to use.
-  channel = "stable-25.05"; # or "unstable"
+  channel = "unstable"; # or "unstable"
   # Use https://search.nixos.org/packages to find packages
   packages = [
     # pkgs.go
     pkgs.python314
     pkgs.uv
+    pkgs.git
+    pkgs.pkg-config
+    pkgs.automake
+    pkgs.autoconf
+    pkgs.libtool
     # pkgs.python311Packages.pip
     # pkgs.nodejs_20
     # pkgs.nodePackages.nodemon
