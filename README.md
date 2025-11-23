@@ -83,3 +83,44 @@ To ensure a seamless experience within the IDE, the `.idx/dev.nix` file should b
 ```
 
 By following these principles, reproducing the LNBits development environment in a new VM becomes a straightforward and error-free process.
+
+## Enforcing Git Configuration on Startup
+
+To ensure your git remotes are always configured correctly when you start your VM, you can create a startup script. This script will automatically set up your forked `lnbits` repository as the `origin` and the original `lnbits` repository as `upstream`.
+
+### 1. Create the Startup Script
+
+Create a file named `configure_git.sh` in the root of your project with the following content:
+
+```bash
+#!/bin/bash
+cd lnbits
+# Check if the upstream remote is already configured
+if ! git remote -v | grep -q "upstream"; then
+    git remote rename origin upstream
+fi
+# Check if the origin remote is your fork
+if ! git remote -v | grep -q "andre-amorim/lnbits"; then
+    git remote add origin https://github.com/andre-amorim/lnbits.git
+fi
+git remote set-url origin https://github.com/andre-amorim/lnbits.git
+git fetch origin
+```
+
+### 2. Make the Script Executable
+
+Open your terminal and run the following command to make the script executable:
+
+```bash
+chmod +x configure_git.sh
+```
+
+### 3. Running the Script on Startup
+
+Since your VM environment does not seem to use `systemd` or `cron`, the best way to run this script is to add it to your shell's startup file (e.g., `.bashrc`, `.zshrc`). Add the following line to the end of your shell's startup file:
+
+```bash
+/path/to/your/project/configure_git.sh
+```
+
+Replace `/path/to/your/project/` with the absolute path to your project's root directory. This will ensure that your git remotes are correctly configured every time you open a new terminal.

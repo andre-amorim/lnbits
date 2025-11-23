@@ -1,0 +1,10 @@
+[Unit]
+Description=Configure Git Remotes for lnbits
+After=network.target
+
+[Service]
+ExecStart=/home/user/nixb-lnbits-ext-mc/configure_git.sh
+User=user
+
+[Install]
+WantedBy=default.target
